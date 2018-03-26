@@ -34,10 +34,34 @@ public class FirstServlet extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         
-        String idString = "no id";
+        /*String idString = "no id";
         
         if (request.getParameterMap().containsKey("id")) {
             idString = request.getParameter("id");
+        }
+        
+        try (PrintWriter out = response.getWriter()) {
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet FirstServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet FirstServlet at " + request.getContextPath() + "</h1>");
+            out.println("<div>" + idString + "</div>");
+            out.println("</body>");
+            out.println("</html>");
+        }*/
+        
+        String loginString = "no login";
+        String passwordString = "no password";
+        
+        if (request.getParameterMap().containsKey("login")
+                && request.getParameterMap().containsKey("password")) {
+            
+            loginString = request.getParameter("login");
+            passwordString = request.getParameter("password");
         }
         
         try (PrintWriter out = response.getWriter()) {
@@ -49,7 +73,8 @@ public class FirstServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet FirstServlet at " + request.getContextPath() + "</h1>");
-            out.println("<div>" + idString + "</div>");
+            out.println("<div> <span>Your login: </span>" + loginString + "</div>");
+            out.println("<div> <span>Your password: </span>" + passwordString + "</div>");
             out.println("</body>");
             out.println("</html>");
         }
