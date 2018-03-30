@@ -5,13 +5,16 @@
  */
 package org.tyaa.webapp1;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.tyaa.webapp1.model.Result;
 
 /**
  *
@@ -54,6 +57,8 @@ public class FirstServlet extends HttpServlet {
             out.println("</html>");
         }*/
         
+        Gson gson = new Gson();
+        
         String loginString = "no login";
         String passwordString = "no password";
         
@@ -66,7 +71,9 @@ public class FirstServlet extends HttpServlet {
         
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
+            
+            /*1*/
+            /*out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet FirstServlet</title>");            
@@ -76,7 +83,19 @@ public class FirstServlet extends HttpServlet {
             out.println("<div> <span>Your login: </span>" + loginString + "</div>");
             out.println("<div> <span>Your password: </span>" + passwordString + "</div>");
             out.println("</body>");
-            out.println("</html>");
+            out.println("</html>");*/
+            
+            /*2*/
+            //Создали пустой список
+            ArrayList<String> data = new ArrayList<>();
+            //Добавили в него имя и пароль
+            data.add(loginString);
+            data.add(passwordString);
+            //Предали список в объект Result
+            Result result = new Result(data);
+            //Превратили объект Result в json-строку
+            //и отправили на клиент
+            out.println(gson.toJson(result));
         }
     }
 
