@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.tyaa.webapp1.entity.Achievement;
 import org.tyaa.webapp1.model.Result;
 
 /**
@@ -34,9 +35,10 @@ public class FirstServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        response.setContentType("text/html;charset=UTF-8");
-        
+
+        //response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+
         /*String idString = "no id";
         
         if (request.getParameterMap().containsKey("id")) {
@@ -56,47 +58,101 @@ public class FirstServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }*/
-        
         Gson gson = new Gson();
-        
-        String loginString = "no login";
-        String passwordString = "no password";
-        
-        if (request.getParameterMap().containsKey("login")
-                && request.getParameterMap().containsKey("password")) {
-            
-            loginString = request.getParameter("login");
-            passwordString = request.getParameter("password");
+
+        String action = "";
+
+        if (request.getParameterMap().containsKey("action")) {
+
+            action = request.getParameter("action");
         }
-        
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            
-            /*1*/
-            /*out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet FirstServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet FirstServlet at " + request.getContextPath() + "</h1>");
-            out.println("<div> <span>Your login: </span>" + loginString + "</div>");
-            out.println("<div> <span>Your password: </span>" + passwordString + "</div>");
-            out.println("</body>");
-            out.println("</html>");*/
-            
-            /*2*/
-            //Создали пустой список
-            ArrayList<String> data = new ArrayList<>();
-            //Добавили в него имя и пароль
-            data.add(loginString);
-            data.add(passwordString);
-            //Предали список в объект Result
-            Result result = new Result(data);
-            //Превратили объект Result в json-строку
-            //и отправили на клиент
-            out.println(gson.toJson(result));
+
+        switch (action) {
+
+            case "signin": {
+
+                String loginString = "no login";
+                String passwordString = "no password";
+
+                if (request.getParameterMap().containsKey("login")
+                        && request.getParameterMap().containsKey("password")) {
+
+                    loginString = request.getParameter("login");
+                    passwordString = request.getParameter("password");
+                }
+
+                try (PrintWriter out = response.getWriter()) {
+                    /* TODO output your page here. You may use following sample code. */
+
+ /*1*/
+ /*out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>Servlet FirstServlet</title>");            
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("<h1>Servlet FirstServlet at " + request.getContextPath() + "</h1>");
+                    out.println("<div> <span>Your login: </span>" + loginString + "</div>");
+                    out.println("<div> <span>Your password: </span>" + passwordString + "</div>");
+                    out.println("</body>");
+                    out.println("</html>");*/
+
+ /*2*/
+                    //Создали пустой список
+                    ArrayList<String> data = new ArrayList<>();
+                    //Добавили в него имя и пароль
+                    data.add(loginString);
+                    data.add(passwordString);
+                    //Предали список в объект Result
+                    Result result = new Result(data);
+                    //Превратили объект Result в json-строку
+                    //и отправили на клиент
+                    out.println(gson.toJson(result));
+                }
+                break;
+            }
+            case "create": {
+
+                String titleString = "no title";
+                String contentString = "no content";
+
+                if (request.getParameterMap().containsKey("title")
+                        && request.getParameterMap().containsKey("content")) {
+
+                    titleString = request.getParameter("title");
+                    contentString = request.getParameter("content");
+                }
+
+                try (PrintWriter out = response.getWriter()) {
+
+                    Achievement achievement
+                            = new Achievement(titleString, contentString, "");
+                    Global.achievements.add(achievement);
+
+                    ArrayList<String> data = new ArrayList<>();
+                    //Добавили в него имя и пароль
+                    data.add("created: " + achievement.id);
+                    //data.add(passwordString);
+                    //Предали список в объект Result
+                    Result result = new Result(data);
+                    //Превратили объект Result в json-строку
+                    //и отправили на клиент
+                    out.println(gson.toJson(result));
+                }
+            }
+            case "all-achievements": {
+
+                try (PrintWriter out = response.getWriter()) {
+
+                    //Предали список в объект Result
+                    Result result = new Result(Global.achievements);
+                    //Превратили объект Result в json-строку
+                    //и отправили на клиент
+                    out.println(gson.toJson(result));
+                }
+            }
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
