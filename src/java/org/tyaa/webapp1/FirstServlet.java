@@ -151,6 +151,13 @@ public class FirstServlet extends HttpServlet {
                     out.println(gson.toJson(result));
                 }
             }
+            case "all-achievements-array": {
+
+                try (PrintWriter out = response.getWriter()) {
+
+                    out.println(gson.toJson(Global.achievements));
+                }
+            }
         }
 
     }
