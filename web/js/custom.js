@@ -1,9 +1,9 @@
 $(document).ready(function () {
     
     function populateTable(){
-        
+        //url: "http://localhost:8080/WebApp1/FirstServlet?action=all-achievements",
         $.ajax({
-            url: "http://localhost:8080/WebApp1/FirstServlet?action=all-achievements",
+            url: "http://localhost:8084/WebApp1/FirstServlet?action=all-achievements",
             dataType: 'json',
             method : "post",
             cache : false
@@ -113,8 +113,9 @@ $(document).ready(function () {
         var content = $('input#content').val();
         
         //Отправка асинхронного запроса
+        //url: "http://localhost:8080/WebApp1/FirstServlet?action=create"
         $.ajax({
-            url: "http://localhost:8080/WebApp1/FirstServlet?action=create"
+            url: "http://localhost:8084/WebApp1/FirstServlet?action=create"
                 + "&title="
                 + title
                 + "&content="
